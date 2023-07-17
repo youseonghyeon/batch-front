@@ -1,11 +1,13 @@
 package com.example.batchfront.controller;
 
 import com.example.batchfront.Entity.User;
-import com.example.batchfront.annotation.SessionUser;
+import com.example.batchfront.config.socket.VueWebSocketHandler;
 import com.example.batchfront.dto.LoginRequest;
 import com.example.batchfront.session.SessionStore;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     private final SessionStore sessionStore;
+    private final VueWebSocketHandler vueWebSocketHandler;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest, HttpServletResponse response, @CookieValue(value = "MY-SESSION-ID", required = false) String sid) {
+    public LoginResponse login(@RequestBody LoginRequest loginRequest, HttpServletResponse response, @CookieValue(value = "MY-SESSION-ID", required = false) String sid) {
         if (sid != null && sessionStore.isExist(sid)) {
             sessionStore.removeSession(sid);
         }
@@ -28,13 +31,27 @@ public class LoginController {
         String sessionId = sessionStore.createSession(user);
 
         response.addCookie(new Cookie("MY-SESSION-ID", sessionId));
-        return sessionId;
+        return new LoginResponse(sessionId, user.getUsername());
+    }
+
+    @Data
+    @AllArgsConstructor
+    private static class LoginResponse {
+        private String sessionId;
+        private String username;
     }
 
     @PostMapping("/logout")
-    public String logout(@CookieValue("MY-SESSION-ID") String sessionId) {
+    public String logout(@CookieValue(value = "MY-SESSION-ID", required = false) String sessionId) {
         log.info("logout sessionId={}", sessionId);
         sessionStore.removeSession(sessionId);
         return "logout";
+    }
+
+    @GetMapping("/test")
+    public void test(@RequestParam("test") String test) {
+        log.info("test");
+        vueWebSocketHandler.sendMessage(test);
+
     }
 }

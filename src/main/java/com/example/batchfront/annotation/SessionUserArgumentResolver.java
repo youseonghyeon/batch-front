@@ -1,14 +1,12 @@
 package com.example.batchfront.annotation;
 
 import com.example.batchfront.Entity.User;
-import com.example.batchfront.annotation.SessionUser;
 import com.example.batchfront.session.SessionStore;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

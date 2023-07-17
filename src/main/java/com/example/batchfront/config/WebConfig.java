@@ -19,11 +19,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173") // 허용할 클라이언트 도메인
-                .allowedMethods("GET", "POST") // 허용할 HTTP 메서드
-                .allowedHeaders("*") // 허용할 요청 헤더
-                .allowCredentials(true) // 인증정보 허용
-                .maxAge(3600); // preflight 요청의 유효시간(초)
+                .allowedOrigins("http://localhost:5173")
+                .allowedMethods("GET", "POST")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
         WebMvcConfigurer.super.addCorsMappings(registry);
     }
 
@@ -31,4 +31,5 @@ public class WebConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new SessionUserArgumentResolver(sessionStore));
     }
+
 }

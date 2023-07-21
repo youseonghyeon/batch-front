@@ -19,10 +19,9 @@ public class BatchController {
     private final ObjectMapper objectMapper;
 
     @PostMapping("/start-batch")
-    public void startBatch(@RequestBody BatchConfiguration config) {
-        log.info("config={}", config);
+    public void startBatch(@RequestBody Object obj) {
         try {
-            rabbitTemplate.convertAndSend("batch-handler", "#", objectMapper.writeValueAsString(config));
+            rabbitTemplate.convertAndSend("batch-handler", "#", objectMapper.writeValueAsString(obj));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

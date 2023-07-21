@@ -6,3 +6,7 @@ spring:
     port: 5672
     username: admin
     password: admin
+settlement-new:
+  schema: http://
+  host: localhost
+  prot: 8002

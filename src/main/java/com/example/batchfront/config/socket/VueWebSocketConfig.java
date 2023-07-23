@@ -15,22 +15,7 @@ public class VueWebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(vueWebSocketHandler, "/was-socket").setAllowedOrigins("*");
+        registry.addHandler(vueWebSocketHandler, "/was-socket")
+                .setAllowedOrigins("*");
     }
-    /**
-     * var socket = new WebSocket("ws://localhost:8080/websocket-endpoint");
-     *
-     * socket.onopen = function() {
-     *     console.log("WebSocket 연결이 열렸습니다.");
-     *     socket.send("Hello Server!");
-     * };
-     *
-     * socket.onmessage = function(event) {
-     *     console.log("서버로부터 메시지 수신: " + event.data);
-     * };
-     *
-     * socket.onclose = function(event) {
-     *     console.log("WebSocket 연결이 닫혔습니다.");
-     * };
-     */
 }

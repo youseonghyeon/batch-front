@@ -9,4 +9,5 @@ spring:
 settlement-new:
   schema: http://
   host: localhost
-  prot: 8002
+  port: 8002
+

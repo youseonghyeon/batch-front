@@ -27,10 +27,10 @@ public class BatchWebSocketConfig {
     /**
      * batch 서버와 연결을 유지하기 위한 스케줄러
      */
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelay = 5000)
     public void myTask()  {
         if (batchSession == null || !batchSession.isOpen()) {
-            log.info("[SOCKET HANDLER] batch 서버에 연결을 시도 합니다.");
+            log.debug("[SOCKET HANDLER] batch 서버에 연결을 시도 합니다.");
             batchSession = connect();
         }
     }
@@ -40,7 +40,7 @@ public class BatchWebSocketConfig {
         try {
             return execute.get();
         } catch (InterruptedException | ExecutionException e) {
-            log.error("[SOCKET HANDLER] batch 서버에 연결하지 못했습니다.");
+            log.debug("[SOCKET HANDLER] batch 서버에 연결하지 못했습니다.");
         }
         return null;
     }

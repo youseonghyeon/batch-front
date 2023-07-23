@@ -1,8 +1,8 @@
 package com.example.batchfront.config.socket;
 
-import com.example.batchfront.repository.DailySettlementRepository;
-import com.example.batchfront.repository.SettlementRepository;
-import com.example.batchfront.repository.TransferHistoryRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,7 +14,9 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -24,6 +26,11 @@ import java.util.Set;
 public class VueWebSocketHandler extends TextWebSocketHandler {
 
     private final Set<WebSocketSession> socketStore = new HashSet<>();
+    private final ObjectMapper objectMapper;
+
+    private String subject = "pending";
+    private String detail = "pending";
+    private List<String> logMessage = new ArrayList<>();
 
     @Scheduled(fixedDelay = 300000)
     public void cleanUpExpiredSessions() {
@@ -32,7 +39,7 @@ public class VueWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        log.info("Created new connection: SocketSession[id:{}]", session.getId());
+        log.info("[Vue3] Created new connection: SocketSession[id:{}]", session.getId());
         socketStore.add(session);
     }
 
@@ -44,14 +51,14 @@ public class VueWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        log.info("Closed connection: SocketSession[id:{}]", session.getId());
+        log.debug("Closed connection: SocketSession[id:{}]", session.getId());
         socketStore.remove(session);
     }
 
     public void sendMessage(String message) {
-        log.info("Sending message: {}", message);
+        log.debug("Sending message: {}", message);
         socketStore.stream().filter(WebSocketSession::isOpen).forEach(session -> {
-            log.info("session={}, message={}", session, message);
+            log.debug("session={}, message={}", session, message);
             sendMessage(session, message);
         });
     }
@@ -62,5 +69,14 @@ public class VueWebSocketHandler extends TextWebSocketHandler {
         } catch (IOException e) {
             log.error("Failed to send message: {}", message, e);
         }
+    }
+
+
+    @Data
+    @AllArgsConstructor
+    static class VueSpec {
+        private String subject;
+        private String detail;
+        private List<String> logMessage;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.batchfront.controller;
 
 import com.example.batchfront.config.SettlementNewProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
@@ -24,20 +25,18 @@ public class LoggingController {
                 .url(properties.getUrl() + "/logging") // 요청할 URL 설정
                 .get()
                 .build();
-        String responseData = "";
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 // 성공적인 응답 처리
-                responseData = response.body().string();
+                return response.body().string();
             } else {
                 // 에러 응답 처리
                 System.out.println("에러 응답: " + response.code() + " " + response.message());
+                return "";
             }
         } catch (Exception e) {
-            // 예외 처리
-            e.printStackTrace();
+            return "Internal Server Error.. ㅜㅜ";
         }
-        return responseData;
     }
 
     @GetMapping("/log/clear")

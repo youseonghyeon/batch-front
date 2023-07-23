@@ -4,20 +4,27 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 @Component
 @Data
 @ConfigurationProperties(prefix = "settlement-new")
 public class SettlementNewProperties {
 
-    private String scheme = "http://";
+    private String protocol = "http";
     private String host;
-    private int port = 8002;
+    private int port;
 
     public String getUrl() {
-        if (scheme.endsWith("://")) {
-            return scheme + host + ":" + port;
-        } else {
-            return scheme + "://" + host + ":" + port;
+        if (protocol.endsWith("://")) {
+            protocol = protocol.split("://")[0];
+        }
+        try {
+            URL url = new URL(protocol, host, port, "");
+            return url.toString();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
         }
     }
 

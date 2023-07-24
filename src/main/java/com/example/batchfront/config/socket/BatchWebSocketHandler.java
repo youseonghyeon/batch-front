@@ -29,21 +29,15 @@ public class BatchWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws JsonProcessingException {
-        message.getPayload().toString();
         SockMessageSpec sockMessageSpec = objectMapper.readValue(message.getPayload().toString(), SockMessageSpec.class);
         vueWebSocketHandler.sendMessage(objectMapper.writeValueAsString(sockMessageSpec));
     }
 
     @Data
     private static class SockMessageSpec {
-        private String type = "BATCH_STATUS";
+        private String type;
         private String subject;
         private String detail;
-
-        public SockMessageSpec(String subject, String detail) {
-            this.subject = subject;
-            this.detail = detail;
-        }
     }
 
 }

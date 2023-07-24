@@ -1,7 +1,7 @@
 package com.example.batchfront.controller;
 
 import com.example.batchfront.Entity.User;
-import com.example.batchfront.config.socket.VueWebSocketHandler;
+import com.example.batchfront.config.socket.front.VueWebSocketHandler;
 import com.example.batchfront.dto.LoginRequest;
 import com.example.batchfront.session.SessionStore;
 import jakarta.servlet.http.Cookie;
@@ -48,10 +48,4 @@ public class LoginController {
         return "logout";
     }
 
-    @GetMapping("/test")
-    public void test(@RequestParam("test") String test) {
-        log.info("test");
-        vueWebSocketHandler.sendMessage(test);
-
-    }
 }

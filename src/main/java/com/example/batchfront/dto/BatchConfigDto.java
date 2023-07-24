@@ -5,7 +5,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class BatchConfiguration implements Serializable {
+public class BatchConfigDto implements Serializable {
+
     private String messageType;
     private int mockSize;
     private int chunkSize;

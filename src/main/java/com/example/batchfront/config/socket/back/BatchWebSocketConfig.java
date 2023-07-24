@@ -1,4 +1,4 @@
-package com.example.batchfront.config.socket;
+package com.example.batchfront.config.socket.back;
 
 
 import lombok.RequiredArgsConstructor;

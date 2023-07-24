@@ -1,6 +1,5 @@
 package com.example.batchfront.controller;
 
-import com.example.batchfront.dto.BatchConfiguration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,7 @@ public class BatchController {
 
     @PostMapping("/start-batch")
     public void startBatch(@RequestBody Object obj) {
+        // TODO 파라미터를 Object가 아닌 명시적인 Class로 변경해야 함
         try {
             rabbitTemplate.convertAndSend("batch-handler", "#", objectMapper.writeValueAsString(obj));
         } catch (JsonProcessingException e) {

@@ -1,4 +1,4 @@
-package com.example.batchfront.config.socket;
+package com.example.batchfront.config.socket.front;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;

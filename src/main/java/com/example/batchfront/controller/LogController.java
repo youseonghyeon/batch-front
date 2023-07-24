@@ -1,7 +1,6 @@
 package com.example.batchfront.controller;
 
 import com.example.batchfront.config.SettlementNewProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class LoggingController {
+public class LogController {
 
     private final OkHttpClient client;
     private final SettlementNewProperties properties;
@@ -22,25 +21,20 @@ public class LoggingController {
     public String getLoggingSpec() {
 
         Request request = new Request.Builder()
-                .url(properties.getUrl() + "/logging") // 요청할 URL 설정
+                .url(properties.getUrl() + "/logging")
                 .get()
                 .build();
+
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
-                // 성공적인 응답 처리
                 return response.body().string();
             } else {
-                // 에러 응답 처리
                 System.out.println("에러 응답: " + response.code() + " " + response.message());
                 return "";
             }
         } catch (Exception e) {
-            return "Internal Server Error.. ㅜㅜ";
+            return "Internal Server Error.. ㅠㅠ";
         }
     }
 
-    @GetMapping("/log/clear")
-    public String cleanUpLog() {
-        return null;
-    }
 }

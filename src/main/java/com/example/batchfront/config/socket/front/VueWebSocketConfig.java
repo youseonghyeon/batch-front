@@ -1,4 +1,4 @@
-package com.example.batchfront.config.socket;
+package com.example.batchfront.config.socket.front;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

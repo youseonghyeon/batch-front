@@ -1,13 +1,30 @@
 server:
   port: 8001
-spring:
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: admin
-    password: admin
+
 settlement-new:
   schema: http://
   host: localhost
   port: 8002
 
+---
+spring:
+  config:
+    activate:
+      on-profile: aws
+  rabbitmq:
+    host: amqps://b-12f334b9-d753-448b-bd98-4b54d466ca91.mq.ap-northeast-2.amazonaws.com
+    port: 5671
+    username: epfzja
+    password: q1w2e3r4t5!@
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: default
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: admin

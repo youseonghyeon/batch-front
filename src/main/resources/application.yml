@@ -7,6 +7,7 @@ settlement-new:
   port: 8002
 
 ---
+
 spring:
   config:
     activate:
@@ -16,9 +17,12 @@ spring:
     port: 5671
     username: epfzja
     password: q1w2e3r4t5!@
+    ssl:
+      enabled: true
 
 
 ---
+
 spring:
   config:
     activate:

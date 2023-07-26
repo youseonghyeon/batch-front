@@ -16,6 +16,6 @@ public class VueWebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(vueWebSocketHandler, "/was-socket")
-                .setAllowedOrigins("*");
+                .setAllowedOrigins("http://www.sideproject.site", "http://localhost:5173");
     }
 }
